@@ -24,6 +24,13 @@ public class UserController {
     @Autowired
     private UserServiceI userServiceI;
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote  For create users
+     * @param userDto
+     * @return
+     * @since 1.0 v
+     */
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 
@@ -33,7 +40,15 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote For update single user
+     * @exception
+     * @param userDto
+     * @param userId
+     * @return
+     * @since 1.0 v
+     */
     @PutMapping("users/userId/{userId}")
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable String userId){
         log.info("Entering the request for Update user data with userId :{}",userId);
@@ -42,6 +57,13 @@ public class UserController {
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote get single user
+     * @param userId
+     * @return
+     * @since 1.0 v
+     */
     @GetMapping("/users/userId/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable String userId){
         log.info("Entering the request for get user data with userId :{}",userId);
@@ -50,6 +72,16 @@ public class UserController {
         return new ResponseEntity<>(userById,HttpStatus.OK);
     }
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote get all users
+     * @param pageSize
+     * @param pageNumber
+     * @param sortBy
+     * @param sortDir
+     * @return
+     * @since 1.0 v
+     */
     @GetMapping("/users")
     public ResponseEntity <PageableResponse<UserDto>> getAllUser(@RequestParam (value = "pageSize",defaultValue = AppConstant.PAGE_SIZE)Integer pageSize,
                                                      @RequestParam (value= "pageNumber",defaultValue = AppConstant.PAGE_NUMBER)Integer pageNumber,
@@ -62,6 +94,13 @@ public class UserController {
         return new ResponseEntity<>(allUser,HttpStatus.OK);
     }
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote get users by using keyword
+     * @param keyword
+     * @return
+     * @since 1.0 v
+     */
     @GetMapping("/users/keyword/{keyword}")
     public ResponseEntity<List<UserDto>>searchUser(@PathVariable String keyword){
         log.info("Entering the request for search user with keyword :{}",keyword);
@@ -70,6 +109,13 @@ public class UserController {
         return new ResponseEntity<>(userDtos,HttpStatus.OK);
     }
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote get single user by email
+     * @param email
+     * @return
+     * @since 1.0 v
+     */
     @GetMapping("/users/email/{email}")
     public ResponseEntity<UserDto>getByEmail(@PathVariable String email){
         log.info("Entering the request for get user data with email :{}",email);
@@ -78,6 +124,13 @@ public class UserController {
         return new ResponseEntity<>(byEmail,HttpStatus.OK);
     }
 
+    /**
+     * @author Rushikesh Hatkar
+     * @apiNote delete single user
+     * @param userId
+     * @return
+     * @since  1.0 v
+     */
     @DeleteMapping("/users/userId/{userId}")
     public ResponseEntity<ApiResponse>deleteUser(@PathVariable String userId){
         log.info("Entering the request for delete user data with userId :{}",userId);

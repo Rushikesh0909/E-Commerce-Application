@@ -1,4 +1,4 @@
-package com.bikkadIt.service;
+package com.bikkadIt.service.impl;
 
 import com.bikkadIt.constants.AppConstant;
 import com.bikkadIt.dto.UserDto;
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserServiceI {
     public UserDto getUserById(String userId) {
         log.info("Entering dao call for get user data with userId :{}",userId);
         User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND+userId));
+                .orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND+ userId));
         log.info("Completed dao call for update user data with userId :{}",userId);
         return this.modelMapper.map(user, UserDto.class);
 
