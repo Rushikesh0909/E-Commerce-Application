@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserServiceI {
 
     @Override
     public UserDto createUser(UserDto user) {
-        log.info("Entering dao call for save user data :{}");
+        log.info("Entering dao call for save user data ");
         User user1 = this.modelMapper.map(user, User.class);
         String uuid = UUID.randomUUID().toString();
         user1.setUserId(uuid);
         User saveUser = this.userRepo.save(user1);
-        log.info("Completed dao call for save user data :{}");
+        log.info("Completed dao call for save user data ");
         return this.modelMapper.map(saveUser, UserDto.class);
 
     }
