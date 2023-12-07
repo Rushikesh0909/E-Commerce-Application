@@ -2,7 +2,6 @@ package com.bikkadIt.services;
 
 import com.bikkadIt.dto.UserDto;
 import com.bikkadIt.entity.User;
-import com.bikkadIt.payloads.PageableResponse;
 import com.bikkadIt.repository.UserRepo;
 import com.bikkadIt.service.UserServiceI;
 import org.junit.jupiter.api.Assertions;
@@ -13,12 +12,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-public class userService {
+public class userServiceTest {
 
     @MockBean
     private UserRepo userRepo;
@@ -112,8 +117,11 @@ public class userService {
     @Test
     public void getAllUserTest(){
 
-        Mockito.when(this.userRepo.findAll()).thenReturn(List.of(user));
-//        PageableResponse<UserDto> actualResult = this.userService.getAllUser();
+        List<User> users = Arrays.asList(user, user1);
+        Page<User>page=new PageImpl<>(users);
+
+        Mockito.when(this.userRepo.findAll((Pageable)Mockito.any())).thenReturn(page);
+        Sort.by("name").ascending();
 
     }
     @Test
