@@ -4,12 +4,20 @@ import com.bikkadIt.constants.AppConstant;
 import com.bikkadIt.dto.ProductDto;
 import com.bikkadIt.entity.Product;
 import com.bikkadIt.exception.ResourseNotFoundException;
+import com.bikkadIt.payloads.PageableResponse;
+import com.bikkadIt.payloads.helper;
 import com.bikkadIt.repository.ProductRepo;
 import com.bikkadIt.service.ProductServiceI;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +34,8 @@ public class ProductServiceImpl implements ProductServiceI {
         Product product1 = this.modelMapper.map(product, Product.class);
         String uuid = UUID.randomUUID().toString();
         product1.setProductId(uuid);
+        Date date=new Date();
+        product1.setAddedDate(date);
         Product saveProduct = this.productRepo.save(product1);
         ProductDto productDto = this.modelMapper.map(saveProduct, ProductDto.class);
         return productDto;
@@ -57,10 +67,73 @@ public class ProductServiceImpl implements ProductServiceI {
     }
 
     @Override
+    public PageableResponse<ProductDto> getAllProduct(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+
+        Sort sort;
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }else {
+            sort=Sort.by(sortBy).descending();
+        }
+        PageRequest request = PageRequest.of(pageNumber, pageSize,sort);
+        Page<Product> products = this.productRepo.findAll(request);
+        PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(products, ProductDto.class);
+
+        return pageableResponse;
+    }
+
+
+    @Override
     public void deleteProduct(String productId) {
         Product product = this.productRepo.findById(productId).orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND + productId));
 
         this.productRepo.delete(product);
 
     }
+
+    @Override
+    public PageableResponse<ProductDto> findByLiveTrue(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+        Sort sort;
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }else {
+            sort=Sort.by(sortBy).descending();
+        }
+        PageRequest request = PageRequest.of(pageNumber, pageSize,sort);
+        Page<Product> byLiveTrue = this.productRepo.findByLiveTrue(request);
+        PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(byLiveTrue, ProductDto.class);
+        return pageableResponse;
+    }
+
+
+
+    @Override
+    public PageableResponse<ProductDto> findByTitleContaining(Integer pageNumber, Integer pageSize, String sortBy,String sortDir, String keyword) {
+        Sort sort;
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }else {
+            sort=Sort.by(sortBy).descending();
+        }
+        PageRequest pagerequest = PageRequest.of(pageNumber, pageSize,sort);
+        Page<Product> titleContaining = this.productRepo.findByTitleContaining(pagerequest, keyword);
+        PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(titleContaining, ProductDto.class);
+        return pageableResponse;
+    }
+
+    @Override
+    public PageableResponse<ProductDto> getAllLiveProducts(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
+        Sort sort;
+        if(direction.equalsIgnoreCase("asc")){
+            sort=Sort.by(sortBy).ascending();
+        }else {
+            sort=Sort.by(sortBy).descending();
+        }
+        PageRequest pagerequest = PageRequest.of(pageNumber, pageSize,sort);
+        Page<Product> products = this.productRepo.findAll(pagerequest);
+        PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(products, ProductDto.class);
+        return pageableResponse;
+    }
+
+
 }
