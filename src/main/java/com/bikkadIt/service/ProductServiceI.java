@@ -30,4 +30,8 @@ public interface ProductServiceI {
 
     PageableResponse<ProductDto> getAllLiveProducts(Integer pageNumber, Integer pageSize, String sortBy, String direction);
 
+
+    ProductDto createProductWithCategory(ProductDto productDto,String categoryId);
+
+    ProductDto getProductWithProductIdAndCategoryId(ProductDto productDto,String categoryId,String productId);
 }

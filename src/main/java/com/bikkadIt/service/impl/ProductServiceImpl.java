@@ -50,10 +50,11 @@ public class ProductServiceImpl implements ProductServiceI {
         product.setPrice(productDto.getPrice());
         product.setDiscountedPrice(productDto.getDiscountedPrice());
         product.setQuantity(productDto.getQuantity());
-        product.setAddedDate(productDto.getAddedDate());
+//        product.setAddedDate(productDto.getAddedDate());
         product.setLive(productDto.getLive());
         product.setStock(productDto.getStock());
-
+        Date date=new Date();
+        product.setAddedDate(date);
         Product updatedProduct = this.productRepo.save(product);
         return this.modelMapper.map(updatedProduct,ProductDto.class);
     }
