@@ -1,7 +1,9 @@
 package com.bikkadIt.dto;
 
+import com.bikkadIt.entity.Category;
 import lombok.*;
 
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,4 +40,6 @@ public class ProductDto {
     private Boolean live;
 
     private Boolean stock;
+
+    private CategoryDto categories;
 }

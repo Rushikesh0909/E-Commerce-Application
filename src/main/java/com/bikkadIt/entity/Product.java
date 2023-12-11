@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
@@ -41,4 +42,6 @@ public class Product {
     @Column(name = "product_stock")
     private Boolean stock;
 
+    @ManyToOne
+    private Category categories;
 }
