@@ -23,8 +23,8 @@ public class UserDto {
     @Email(message = "please enter valid email id")
     private  String email;
 
-   @Pattern( regexp = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=]).*$",
-    message = "password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
+//   @Pattern( regexp = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=]).*$",
+//    message = "password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
     private String password;
 
     @Size(min=4,max = 6,message = "Invalid Gender")
