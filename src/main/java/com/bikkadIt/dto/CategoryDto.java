@@ -1,10 +1,16 @@
 package com.bikkadIt.dto;
 
+import com.bikkadIt.entity.Product;
 import com.bikkadIt.validate.ImageNameValid;
 import lombok.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -25,4 +31,6 @@ public class CategoryDto {
 
     @ImageNameValid(message = "Image Name Must Not  Be Blank")
     private String coverImage;
+
+
 }
