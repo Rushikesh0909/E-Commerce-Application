@@ -2,10 +2,12 @@ package com.bikkadIt.service.impl;
 
 import com.bikkadIt.constants.AppConstant;
 import com.bikkadIt.dto.ProductDto;
+import com.bikkadIt.entity.Category;
 import com.bikkadIt.entity.Product;
 import com.bikkadIt.exception.ResourseNotFoundException;
 import com.bikkadIt.payloads.PageableResponse;
 import com.bikkadIt.payloads.helper;
+import com.bikkadIt.repository.CategoryRepo;
 import com.bikkadIt.repository.ProductRepo;
 import com.bikkadIt.service.ProductServiceI;
 import org.modelmapper.ModelMapper;
@@ -28,6 +30,9 @@ public class ProductServiceImpl implements ProductServiceI {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private CategoryRepo categoryRepo;
 
     @Override
     public ProductDto createProduct(ProductDto product) {
@@ -134,6 +139,44 @@ public class ProductServiceImpl implements ProductServiceI {
         Page<Product> products = this.productRepo.findAll(pagerequest);
         PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(products, ProductDto.class);
         return pageableResponse;
+    }
+
+    @Override
+    public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
+        Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND));
+        Product product = this.modelMapper.map(productDto, Product.class);
+
+        Date date=new Date();
+        String id = UUID.randomUUID().toString();
+        product.setProductId(id);
+        product.setAddedDate(date);
+        product.setCategories(category);
+        Product newProduct=this.productRepo.save(product);
+        return modelMapper.map(newProduct,ProductDto.class);
+    }
+
+    @Override
+    public PageableResponse<ProductDto> getAllOfCategory(String categoryId, Integer pageNumber, Integer pageSize, String sortBy, String direction) {
+        Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND));
+        Sort sort=(direction.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
+        PageRequest pages = PageRequest.of(pageNumber, pageSize,sort);
+
+        Page<Product> products = this.productRepo.findByCategories(category, pages);
+        PageableResponse<ProductDto> pageableResponse = helper.getPageableResponse(products, ProductDto.class);
+
+        return pageableResponse;
+    }
+
+    @Override
+    public ProductDto updateCategory(String productId, String categoryId) {
+
+        Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND));
+        Product product = this.productRepo.findById(productId).orElseThrow(() -> new ResourseNotFoundException(AppConstant.NOT_FOUND));
+
+        product.setCategories(category);
+        Product save = this.productRepo.save(product);
+        ProductDto dto = modelMapper.map(save, ProductDto.class);
+        return dto;
     }
 
 
