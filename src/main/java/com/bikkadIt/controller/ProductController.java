@@ -82,4 +82,30 @@ public class ProductController {
         PageableResponse<ProductDto> allLiveProducts = this.productServiceI.getAllLiveProducts(pageNumber, pageSize, sortBy, direction);
         return new ResponseEntity<>(allLiveProducts,HttpStatus.OK);
     }
+
+    @PostMapping("/category/{categoryId}")
+    public ResponseEntity<ProductDto> saveProductWithCategoryId(@PathVariable String categoryId,@RequestBody ProductDto productDto){
+
+        ProductDto product = this.productServiceI.createProductWithCategory(productDto, categoryId);
+        return new ResponseEntity<>(product,HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<PageableResponse<ProductDto>> getAllUsersCategory(
+            @PathVariable String categoryId,
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.PRODUCT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "direction", defaultValue = AppConstant.SORT_DIR, required = false) String direction   ){
+
+        PageableResponse<ProductDto> allOfCategory = this.productServiceI.getAllOfCategory(categoryId, pageNumber, pageSize, sortBy, direction);
+        return new ResponseEntity<>(allOfCategory,HttpStatus.OK);
+    }
+
+    @PutMapping("/productId/{productId}/categoryId/{categoryId}")
+    public ResponseEntity<ProductDto>updateProductWithCategory(@PathVariable String productId,@PathVariable String categoryId){
+        ProductDto productDto = this.productServiceI.updateCategory(productId, categoryId);
+        return new ResponseEntity<>(productDto,HttpStatus.OK);
+    }
     }
