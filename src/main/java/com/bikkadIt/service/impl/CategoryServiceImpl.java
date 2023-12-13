@@ -31,12 +31,12 @@ public class CategoryServiceImpl implements CategoryServiceI {
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        log.info("Entering the Dao call for create the Category : {}",categoryDto);
+        log.info("Entering the Dao call for create the Category");
         String id = UUID.randomUUID().toString();
         categoryDto.setCategoryId(id);
         Category category = modelMapper.map(categoryDto, Category.class);
         Category savedCategory = this.categoryRepository.save(category);
-        log.info("Completed the Dao call for create the Category : {}",categoryDto);
+        log.info("Completed the Dao call for create the Category");
         return modelMapper.map(savedCategory,CategoryDto.class);
     }
 
