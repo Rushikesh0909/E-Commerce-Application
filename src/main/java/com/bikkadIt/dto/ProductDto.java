@@ -41,5 +41,7 @@ public class ProductDto {
 
     private Boolean stock;
 
+    private String image;
+
     private CategoryDto categories;
 }

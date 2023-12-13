@@ -33,8 +33,8 @@ public interface ProductServiceI {
 
     ProductDto createProductWithCategory(ProductDto productDto,String categoryId);
 
-    PageableResponse<ProductDto> getAllOfCategory(String categoryId,Integer pageNumber,Integer pageSize, String sortBy, String direction );
+    PageableResponse<ProductDto> getAllProductByCategoryId(String categoryId,Integer pageNumber,Integer pageSize, String sortBy, String direction );
 
-    ProductDto updateCategory(String productId,String categoryId);
+    ProductDto updateProductByCategory(String productId,String categoryId);
 
 }
