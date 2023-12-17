@@ -132,24 +132,39 @@ public class ProductServiceTest {
         Assertions.assertEquals(2,actualResult.getContent().size());
 
     }
+    @Test
+    public void createProductWithCategoryIdTest(){
+
+        Category category=Category.builder()
+                .title("Oppo")
+                .description("This Is Oppo")
+                .coverImage("abc.png").build();
+        String categoryId="abc";
+
+        Mockito.when(categoryRepo.findById(Mockito.anyString())).thenReturn(Optional.of(category));
+
+        Mockito.when(productRepo.save(Mockito.any())).thenReturn(product);
+
+        ProductDto productDto = this.productServiceI.createProductWithCategory(this.modelMapper.map(product, ProductDto.class), Mockito.anyString());
+          Assertions.assertEquals(productDto.getTitle(),product.getTitle());
+    }
+
 //    @Test
-//    public void createProductWithCategoryIdTest(){
-//
-//        String categoryId="abc";
-//
-//        Category categoryDto=Category.builder()
+//    public void getAllProductByCategoryIdTest(){
+//        Category category=Category.builder()
 //                .title("Oppo")
 //                .description("This Is Oppo")
 //                .coverImage("abc.png").build();
 //
-//        Mockito.when(categoryRepo.findById(categoryId)).thenReturn(Optional.of(categoryDto));
+//        String categoryId="abc";
+//        Mockito.when(this.categoryRepo.findById(categoryId)).thenReturn(Optional.of(category));
+//        List<Product> products = Arrays.asList(product, product1);
+//        Page<Product> page = new PageImpl<>(products);
 //
-//        Mockito.when(productRepo.save(Mockito.any())).thenReturn(product);
+//        Mockito.when(this.productRepo.findByCategories((category),Mockito.any())).thenReturn(page);
+//        PageableResponse<ProductDto> product2 = this.productServiceI.getAllProductByCategoryId(categoryId, Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyString());
+//        Assertions.assertEquals(2,product2.getContent().size());
 //
-//        ProductDto productDto = this.productServiceI.createProductWithCategory(this.modelMapper.map(product, ProductDto.class), Mockito.anyString());
-//        Assertions.assertNotNull(productDto);
 //
-//        Assertions.assertEquals("abc",productDto.getProductId());
-//        Assertions.assertEquals(categoryId,productDto.getCategories());
 //    }
 }
