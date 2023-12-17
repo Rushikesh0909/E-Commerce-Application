@@ -95,8 +95,7 @@ public class CategoryControllerTest {
         Mockito.when(this.categoryServiceI.getSingleCategory(Mockito.any())).thenReturn(dto);
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/categories/categoryId/"+categoryId)
-                        .contentType(convertObjectToJsonString(category))
-                        .accept(MediaType.APPLICATION_JSON)
+
         ).andDo(print()).andExpect(status().isOk());
 
 
@@ -118,8 +117,7 @@ public class CategoryControllerTest {
         Mockito.when(this.categoryServiceI.getAllCategory(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(pageResponse);
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/categories")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+
         ).andDo(print()).andExpect(status().isOk());
 
 
