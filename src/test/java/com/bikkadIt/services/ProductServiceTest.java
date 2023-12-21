@@ -47,12 +47,12 @@ public class ProductServiceTest {
 
     @BeforeEach
     public void init() {
-        product = Product.builder().title("Apple").description("This Launched in 2023").price(50000.00)
-                .discountedPrice(45000.00).quantity(15)
+        product = Product.builder().title("Apple").description("This Launched in 2023").price(50000)
+                .discountedPrice(45000).quantity(15)
                 .live(true).stock(true).build();
 
-        product1 = Product.builder().title("Apple").description("This Launched in 2022").price(100000.00)
-                .discountedPrice(95000.00).quantity(5)
+        product1 = Product.builder().title("Apple").description("This Launched in 2022").price(100000)
+                .discountedPrice(95000).quantity(5)
                 .live(true).stock(true).build();
     }
 
@@ -69,7 +69,7 @@ public class ProductServiceTest {
     @Test
     public void updateProductTest() {
 
-        ProductDto productDto = ProductDto.builder().title("One plus").description("This Launched in 2023").price(50000.00)
+        ProductDto productDto = ProductDto.builder().title("One plus").description("This Launched in 2023").price(50000)
                 .discountedPrice(45000.00).quantity(15)
                 .live(true).stock(true).build();
 

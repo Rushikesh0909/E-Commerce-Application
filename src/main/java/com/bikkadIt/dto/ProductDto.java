@@ -27,10 +27,10 @@ public class ProductDto {
     private String description;
 
     @NotNull(message = "Product Price Must Not Be Blank")
-    private Double price;
+    private Integer price;
 
     @NotNull(message = "Product Price Must Not Be Blank")
-    private Double discountedPrice;
+    private Integer discountedPrice;
 
     @NotNull(message = "Quantity Should Not Be Blank")
     private Integer quantity;

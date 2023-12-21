@@ -25,10 +25,10 @@ public class Product {
     private String description;
 
     @Column(name = "product_price")
-    private Double price;
+    private Integer price;
 
     @Column(name = "product_discountedPrice")
-    private Double discountedPrice;
+    private Integer discountedPrice;
 
     @Column(name = "product_quantity")
     private Integer quantity;
