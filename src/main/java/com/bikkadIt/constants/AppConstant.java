@@ -17,4 +17,6 @@ public class AppConstant {
 
     public static final String  PRODUCT_SORT_BY="title";
 
+    public static final String NOT_VALID_QUANTITY="Requested quantity is not valid";
+
 }
