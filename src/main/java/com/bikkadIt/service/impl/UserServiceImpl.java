@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,12 +31,16 @@ public class UserServiceImpl implements UserServiceI {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDto createUser(UserDto user) {
         log.info("Entering dao call for save user data ");
         User user1 = this.modelMapper.map(user, User.class);
         String uuid = UUID.randomUUID().toString();
         user1.setUserId(uuid);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User saveUser = this.userRepo.save(user1);
         log.info("Completed dao call for save user data ");
         return this.modelMapper.map(saveUser, UserDto.class);
